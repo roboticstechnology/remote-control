@@ -1,5 +1,5 @@
 import { httpServer } from './src/http_server/index.js';
-import { wssRun } from './src/ws_server/wsf.js';
+import { wssRun } from './src/ws_server/index';
 import { FRONT_PORT } from './src/config/config'
 
 wssRun();
