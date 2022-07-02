@@ -1,4 +1,4 @@
-# RSSchool NodeJS websocket task template
+# RSSchool NodeJS websocket task template 
 > Static http server and base task packages.
 
 ## Installation
