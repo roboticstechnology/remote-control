@@ -1,19 +1,11 @@
-import robot from 'robotjs'
+import robot from 'robotjs';
 
-interface RobotAPI {
-    [key: string]: Function;
-    mouse_up: (_osY: number) => void;
-    mouse_down: (_osY: any) => void;
-    mouse_left: (_osX: number) => void;
-    mouse_right: (_osX: number) => void;
-    mouse_position: () => string;
-    draw_circle: (_R: number) => void;
-    draw_rectangle: (_width: number, _heigth?: number) => void;
-    draw_square: (_size: number) => void;
+import { IRobotAPI } from '../ws_server/helpers/interfaces/interfaces';
+import { printScreen } from '../ws_server/handlers/screen';
 
-}
 
-export const robotAPI = (): RobotAPI => {
+
+export const robotAPI = (): IRobotAPI => {
 
     const drawLine = (
         _x: number,
@@ -59,7 +51,7 @@ export const robotAPI = (): RobotAPI => {
 
             const { x, y } = robot.getMousePos();
 
-            robot.moveMouse(x - _osX, y);
+            robot.moveMouse(x + _osX, y);
 
         },
 
@@ -89,7 +81,7 @@ export const robotAPI = (): RobotAPI => {
             robot.mouseToggle('up');
         },
 
-        draw_rectangle: (_width: number, _height: number) => {
+        draw_rectangle: (_width: number, _height?: number) => {
 
             const { x, y } = robot.getMousePos();
 
@@ -103,7 +95,14 @@ export const robotAPI = (): RobotAPI => {
 
             drawLine(x, y, _size);
 
-        }
+        },
+
+        prnt_scrn: async () => {
+            const { x, y } = robot.getMousePos();
+            const image = await printScreen(x, y, 200, 200)
+            const base64 = await image.getBase64Async(image.getMIME())
+            return base64.substring(22)
+        },
 
     }
 }
